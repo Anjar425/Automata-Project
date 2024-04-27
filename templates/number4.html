@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Regular Expression to NFA Converter</title>
+  </head>
+  <body>
+    <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black flex flex-col justify-center text-white">
+      <section id="input_form" class="flex flex-col min-h-screen justify-center items-center gap-6">
+        <h1 class="font-bold text-6xl">DFA Comparison</h1>
+        <div class="grid grid-cols-2 gap-x-6 gap-y-2">
+          <p class="text-gray-200 font-semibold text-md">Number of States</p>
+          <p class="text-gray-200 font-semibold text-md">Number of Transition</p>
+          <input  class="bg-blue-700 text-gray-200  py-2 rounded-md text-md font-bold text-center remove-arrow" type="number" id="dfa1-state-amount" required />
+          <select class="bg-blue-700 text-gray-200  py-2 rounded-md text-md font-bold text-center remove-arrow" name="transition-amount" id="transition-amount" required>
+            <option class="rounded-lg bg-sky-500/50 font-semibold" value="1">1</option>
+            <option class="rounded-lg bg-sky-500/50 font-semibold" value="2">2</option>
+            <option class="rounded-lg bg-sky-500/50 font-semibold" value="3">3</option>
+            <option class="rounded-lg bg-sky-500/50 font-semibold" value="4">4</option>
+            <option class="rounded-lg bg-sky-500/50 font-semibold" value="5">5</option>
+          </select>
+        </div>
+
+        <button onclick="showForm()">Generate Form</button>
+        <form action="" class="flex flex-col w-full justify-center items-center">
+          <div class="flex flex-row flex-nowrap gap-10 w-full p-10 grow-1 overflow-y-auto no-scrollbar horizontal-scroll">
+
+         
+          <article class="border-2 border-gray-800 w-96 hover:scale-110 transition duration-500 shrink-0 rounded-lg h-80 items-center p-5 gap-3 overflow-y-auto">
+            <p class="text-center font-bold text-3xl text-white">Q1</p>
+            <p class="text-gray-200 font-semibold text-xl text-center my-3">Transition List </p>
+            <div class="flex flex-col justify-center items-center text-center w-full  gap-5">
+              <div class="grid grid-cols-3 w-full gap-4  overflow-y-auto overflow-hidden">
+                <p>From</p>
+                <p>Transtion</p>
+                <p>To</p>
+
+                <input class="bg-gray-600/25 border-[1px] border-gray-600 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+        
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+              
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+              
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+             
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+              
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+              </div>
+              
+              
+            </div>
+          </article>
+          <article class="border-2 border-gray-800 w-96 hover:scale-110 transition duration-500 shrink-0 rounded-lg h-80 items-center p-5 gap-3 overflow-y-auto">
+            <p class="text-center font-bold text-3xl text-white">Q1</p>
+            <p class="text-gray-200 font-semibold text-xl text-center my-3">Transition List </p>
+            <div class="flex flex-col justify-center items-center text-center w-full  gap-5">
+              <div class="grid grid-cols-3 w-full gap-4  overflow-y-auto overflow-hidden">
+                <p>From</p>
+                <p>Transtion</p>
+                <p>To</p>
+
+                <input class="bg-gray-600/25 border-[1px] border-gray-600 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+        
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+              
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+              
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+             
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+              
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+                <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="" id="">
+              </div>
+              
+              
+            </div>
+          </article>
+        </div>
+          <button type="submit" class="bg-green-700 px-4 py-2 rounded-md my-5 font-bold ">MINIMIZE DFA</button>
+        </form>
+
+      </section> 
+  </div>
+
+    <script>
+      const showForm = () => {
+        const numberState = parseInt(
+          document.getElementById("dfa1-state-amount").value
+        );
+        const numberTransition = parseInt(
+          document.getElementById("transition-amount").value
+        );
+        const sectionForm = document.getElementById("input_form");
+        // Menghapus formulir yang ada jika ada
+        const existingForm = document.getElementById("generated-form");
+        if (existingForm) {
+          sectionForm.removeChild(existingForm);
+        }
+        
+
+        const formElement = document.createElement("form");
+        formElement.setAttribute("id", "generated-form");
+        formElement.classList.add(
+          "flex",
+          "flex-row",
+          "flex-nowrap",
+          "gap-10",
+          "w-full",
+          "p-10",
+          "grow-1",
+          "overflow-y-auto",
+          "no-scrollbar",
+          "horizontal-scroll"
+        );
+
+
+        
+        for (let index = 1; index <= numberState; index++) {
+            const keyElement = document.createElement("article");
+        keyElement.classList.add(
+          "border-2",
+          "border-gray-800",
+          "w-96",
+          "hover:scale-110",
+          "transition",
+          "duration-500",
+          "shrink-0",
+          "rounded-lg",
+          "h-96",
+          "grid",
+          "grid-cols-3",
+          "justify-center",
+          "items-center",
+          "p-5"
+        );
+          const titleState = document.createElement("p");
+          titleState.setAttribute("for", `Q${index}`);
+          titleState.textContent = `Q${index}`;
+          titleState.classList.add("col-span-3");
+          keyElement.appendChild(titleState);
+
+          const transitionTitle = document.createElement("p");
+          transitionTitle.textContent = "TRANSITION";
+          transitionTitle.classList.add("col-span-3");
+          keyElement.appendChild(transitionTitle);
+
+          for (let j = 0; j < numberTransition; j++) {
+            const startTransition = document.createElement("input");
+              startTransition.setAttribute("value", `q${index}`); // Nilai setiap opsi sesuai dengan indeksnya
+              startTransition.setAttribute("type", "text");
+              startTransition.setAttribute("readonly", true);
+              keyElement.appendChild(startTransition);
+
+            const setTransition = document.createElement("input");
+            setTransition.setAttribute("type", "text");
+            setTransition.setAttribute("id", `transition${j}`);
+            setTransition.setAttribute("value", `${j}`);
+            setTransition.setAttribute("readonly", true);
+            keyElement.appendChild(setTransition);
+
+            const selectTransition = document.createElement("select");
+            selectTransition.setAttribute("id", `selectTransition${j}`); // Set ID dengan indeks unik
+            keyElement.appendChild(selectTransition);
+
+            for (let k = 1; k <= numberState; k++) {
+              const selectionChoice = document.createElement("option");
+              selectionChoice.setAttribute("value", `q${k}`); // Nilai setiap opsi sesuai dengan indeksnya
+              selectionChoice.textContent = `q${k}`;
+              selectTransition.appendChild(selectionChoice);
+            }
+          }
+
+          formElement.appendChild(keyElement)
+        }
+
+        
+
+        sectionForm.appendChild(formElement);
+      };
+    </script>
+  </body>
+</html>
