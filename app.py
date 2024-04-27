@@ -9,7 +9,7 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/convert', methods=['GET', 'POST'])
+@app.route('/convert', methods=['POST'])
 def convert():
     regex = request.form.get('regex')  # Ambil nilai 'regex' dari formulir
 
