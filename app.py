@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
-from regex2nfafinal import convertToNFA
+from static.py.no2 import convertToNFA
 import logging
 import graphviz
-from static.py.transform_transition import tranform_transition, get_states, get_start_and_final_states, get_alphabet, set_to_string
+from static.py.input_function import tranform_transition, get_states, get_start_and_final_states, get_alphabet, set_to_string
 from static.py.no3 import DFA, visualize_automaton
 
 app = Flask(__name__)
