@@ -34,10 +34,10 @@ def convert():
         dot.edge(start, end, label)
 
     # Simpan gambar ke file
-    dot.render('static/nfa_graph', format='svg', cleanup=False)
+    dot.render('static/img/no2/nfa', format='svg', cleanup=False)
 
     nfa_generated = True
-    return render_template('index.html', nfa_image='static/nfa_graph.svg', nfa_generated=nfa_generated )
+    return render_template('index.html', nfa_image='static/img/no2/nfa.svg', nfa_generated=nfa_generated )
 
 @app.route('/number3')
 def number3():

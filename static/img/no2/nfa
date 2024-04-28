@@ -1,0 +1,29 @@
+// NFA Visualization
+digraph {
+	graph [rankdir=LR]
+	Q0
+	Q1
+	Q2
+	Q3
+	Q4
+	Q5
+	Q6
+	Q7
+	Q8
+	Q9
+	Q10
+	Q11
+	Q0 -> Q1 [label="ε"]
+	Q0 -> Q3 [label="ε"]
+	Q1 -> Q2 [label=a]
+	Q3 -> Q4 [label="ε"]
+	Q3 -> Q6 [label="ε"]
+	Q4 -> Q5 [label=b]
+	Q9 -> Q10 [label="ε"]
+	Q7 -> Q8 [label=c]
+	Q6 -> Q7 [label="ε"]
+	Q6 -> Q9 [label="ε"]
+	Q8 -> Q9 [label="ε"]
+	Q8 -> Q7 [label="ε"]
+	Q10 -> Q11 [label=c]
+}
