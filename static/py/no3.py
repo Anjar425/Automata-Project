@@ -1,5 +1,3 @@
-import graphviz
-
 class DFA:
     def __init__(self, states, alphabet, transitions, start_state, accept_states):
         self.states = states
@@ -72,30 +70,3 @@ class DFA:
         return self.is_accepting(current_state)
     def __str__(self):
         return f"States: {self.states}\nAlphabet: {self.alphabet}\nTransitions: {self.transitions}\nStart State: {self.start_state}\nAccept States: {self.accept_states}"
-
-def visualize_automaton(states, alphabet, transitions, start_state, accept_states, name):
-    # Membuat digraph objek
-    dot = graphviz.Digraph()
-    
-    dot.attr(rankdir='LR')
-    dot.attr('node', shape='circle')
-    
-    # Menambah node
-    for state in states:
-        if state in accept_states:
-            dot.node(state, shape='doublecircle')
-        else:
-            dot.node(state)
-    
-    # Menambah start node
-    dot.node("start", label="start", shape="none", fontsize="24")
-    dot.edge('start', start_state)
-    
-    # Tambah transisi
-    for transition in transitions:
-        from_state, symbol = transition
-        to_state = transitions[transition]
-        dot.edge(from_state, to_state, label=symbol)
-    
-    # render
-    dot.render(name, format='svg', view=False)

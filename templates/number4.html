@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="https://cdn.tailwindcss.com"></script>
+		<title>Regular Expression to NFA Converter</title>
+	</head>
+	<body>
+		<div class="min-h-screen bg-gradient-to-br from-gray-900 to-black flex flex-col text-white">
+
+			<section id="input_form" class="flex flex-col items-center gap-6">
+				<h1 class="font-bold text-6xl mt-24">DFA Equivalence</h1>
+				<div class="grid grid-cols-2 gap-x-6 gap-y-2">
+					<p class="text-gray-200 font-semibold text-md">Number of States</p>
+					<p class="text-gray-200 font-semibold text-md">Number of Transition</p>
+					<input class="bg-blue-700 text-gray-200 py-2 rounded-md text-md font-bold text-center remove-arrow" type="number" id="dfa-state-amount1" required />
+					<select class="bg-blue-700 text-gray-200 py-2 rounded-md text-md font-bold text-center remove-arrow" name="transition-amount" id="transition-amount1" required>
+						<option class="rounded-lg bg-sky-500/50 font-semibold" value="1">1</option>
+						<option class="rounded-lg bg-sky-500/50 font-semibold" value="2">2</option>
+						<option class="rounded-lg bg-sky-500/50 font-semibold" value="3">3</option>
+						<option class="rounded-lg bg-sky-500/50 font-semibold" value="4">4</option>
+						<option class="rounded-lg bg-sky-500/50 font-semibold" value="5">5</option>
+					</select>
+				</div>
+
+                <div class="grid grid-cols-2 gap-x-6 gap-y-2">
+					<p class="text-gray-200 font-semibold text-md">Number of States</p>
+					<p class="text-gray-200 font-semibold text-md">Number of Transition</p>
+					<input class="bg-blue-700 text-gray-200 py-2 rounded-md text-md font-bold text-center remove-arrow" type="number" id="dfa-state-amount2" required />
+					<select class="bg-blue-700 text-gray-200 py-2 rounded-md text-md font-bold text-center remove-arrow" name="transition-amount" id="transition-amount2" required>
+						<option class="rounded-lg bg-sky-500/50 font-semibold" value="1">1</option>
+						<option class="rounded-lg bg-sky-500/50 font-semibold" value="2">2</option>
+						<option class="rounded-lg bg-sky-500/50 font-semibold" value="3">3</option>
+						<option class="rounded-lg bg-sky-500/50 font-semibold" value="4">4</option>
+						<option class="rounded-lg bg-sky-500/50 font-semibold" value="5">5</option>
+					</select>
+				</div>
+
+				<button class="bg-green-700 px-4 py-2 rounded-md font-bold" onclick="showForm(2)">Generate Form</button>
+				<form id="form" action="\compare" method="post" class="flex flex-col w-full justify-center items-center">
+					<!-- <p id="select_start_label" class="hidden text-gray-200 font-semibold text-md m-2">Select Start States</p>
+					<select name="" id="select_start" class="hidden bg-blue-700 text-gray-200 w-1/6 py-2 rounded-md text-md font-bold text-center remove-arrow"></select> -->
+					<!-- <div id="state-container" class="flex flex-row flex-nowrap gap-10 w-full p-10 grow-1 overflow-y-auto no-scrollbar horizontal-scroll">  -->
+          		</form> 
+			</section>
+
+
+			{% if dfa_generated %}
+			<section id="result" class="flex flex-row justify-center w-full gap-6 min-h-screen">
+				<div class="flex flex-col basis-1/2">
+					<h1 class="text-center font-semibold text-xl h-20">Result DFA Before</h1>
+					<figure class="flex justify-center items-center">
+						<img src="../static/img/no4/dfa1.svg" class="rounded-md" alt="">
+					</figure>
+				</div>
+				<div class="flex flex-col basis-1/2">
+					<h1 class="text-center font-semibold text-xl h-20">Result DFA After</h1>
+					<figure class="flex justify-center items-center">
+						<img src="../static/img/no4/dfa2.svg" class="rounded-md" alt="">
+					</figure>
+				</div>
+			</section>
+			{% endif %}
+		</div>
+
+		<script src="../static/js/number4.js"></script>
+	</body>
+</html>
