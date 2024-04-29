@@ -1,0 +1,25 @@
+digraph {
+	node [shape=doublecircle]
+	q0q2
+	node [shape=none]
+	start [label=start fontsize=24 shape=none]
+	start -> q0q2
+	node [shape=doublecircle]
+	q1q0q2
+	q0q2 -> q1q0q2 [label=0]
+	node [shape=circle]
+	"ϕ"
+	"ϕ" -> "ϕ" [label=0]
+	"ϕ" -> "ϕ" [label=1]
+	q0q2 -> "ϕ" [label=1]
+	q1q0q2 -> q1q0q2 [label=0]
+	node [shape=doublecircle]
+	q2
+	q1q0q2 -> q2 [label=1]
+	node [shape=circle]
+	q1
+	q2 -> q1 [label=0]
+	q2 -> "ϕ" [label=1]
+	q1 -> q2 [label=0]
+	q1 -> q2 [label=1]
+}

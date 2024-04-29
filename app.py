@@ -1,14 +1,68 @@
 from flask import Flask, render_template, request, redirect, url_for
+from static.py.no1 import NFA
 from static.py.no2 import convertToNFA
 from static.py.no3 import DFA as DFA_3
 from static.py.no4 import DFA as DFA_4, are_equivalent
-from static.py.visualize import visualize_automaton
+import static.py.visualize as visualize
 import logging
-import graphviz
-from static.py.input_function import tranform_transition, get_states, get_start_and_final_states, get_alphabet, set_to_string
+from static.py.input_function import tranform_transition, get_states, get_start_and_final_states, get_alphabet, set_to_string, change_format, change_format_to_list
 
 
 app = Flask(__name__)
+
+@app.route('/number1')
+def number1():
+    return render_template('number1.html')
+
+@app.route('/dfa_convert', methods=['POST'])
+def convertDFA():
+    transition = request.form.getlist('dfa')
+    transition = change_format(transition)
+    logging.debug(f"transition : {transition}")
+
+    no_transition = len(transition)
+    logging.debug(f"no_transition : {no_transition}")
+
+    states = change_format_to_list(get_states(tranform_transition(request.form.getlist('dfa'))))
+    logging.debug(f"states : {states}")
+
+    no_states = len(states)
+    logging.debug(f"no_states : {no_states}")
+
+    alphabets = change_format_to_list(get_alphabet(request.form.getlist('dfa')))
+    logging.debug(f"alphabets : {alphabets}")
+
+
+    no_alphabets = len(alphabets)
+    logging.debug(f"no_alphabets : {no_alphabets}")
+
+
+
+    start_states = request.form.getlist('start_states')
+    start_states = set_to_string(start_states)
+    logging.debug(f"start_states : {start_states}")
+
+    finishing_states = change_format_to_list(request.form.getlist('finishing_states'))
+    logging.debug(f"finishing_states: {finishing_states}")
+
+    no_finishing_states = len(finishing_states)
+    logging.debug(f"no_finishing_states : {no_finishing_states}")
+    # test_string = request.form.get('test_string')
+
+    nfa = NFA(no_state=no_states, states=states, no_alphabet=no_alphabets,
+          alphabets=alphabets, start=start_states, no_final=no_finishing_states,
+          finals=finishing_states, no_transition=no_transition, transitions=transition)
+    
+    logging.debug(f"nfa : {nfa}")
+
+    result = False
+    if finishing_states:
+        visualize.visualize_nfa_no1(nfa)
+        visualize.create_dfa_from_nfa(nfa)
+        result = True
+    
+
+    return render_template('number1.html', result=result)
 
 @app.route('/')
 def index():
@@ -22,20 +76,8 @@ def convert():
     nfa = convertToNFA(regex)
     logging.debug(f"NFA: {nfa}")
 
-    # Visualisasi NFA
-    dot = graphviz.Digraph(comment='NFA Visualization')
-    dot.graph_attr['rankdir'] = 'LR'
-
-    # Buat node dan edge sesuai dengan NFA
-    for state in nfa['states']:
-        dot.node(state)
-    for arc in nfa['transition_matrix']:
-        start, label, end = arc
-        dot.edge(start, end, label)
-
-    # Simpan gambar ke file
-    dot.render('static/img/no2/nfa', format='svg', cleanup=False)
-
+    visualize.visualize_nfa(nfa)
+    
     nfa_generated = True
     return render_template('index.html', nfa_image='static/img/no2/nfa.svg', nfa_generated=nfa_generated )
 
@@ -67,9 +109,9 @@ def minimizedfa():
     
     if finishing_states:
         dfa = DFA_3(set(states), set(alphabets), transition, start_states, set(finishing_states))
-        visualize_automaton(states, alphabets, transition, start_states, finishing_states, 'static/img/no3/dfa1')
+        visualize.visualize_automaton(states, alphabets, transition, start_states, finishing_states, 'static/img/no3/dfa1')
         dfa.minimize()
-        visualize_automaton(dfa.states, dfa.alphabet, dfa.transitions, dfa.start_state, dfa.accept_states, 'static/img/no3/dfa2')
+        visualize.visualize_automaton(dfa.states, dfa.alphabet, dfa.transitions, dfa.start_state, dfa.accept_states, 'static/img/no3/dfa2')
         dfa_generated = True
     else:
         dfa_generated = False
@@ -113,8 +155,8 @@ def compare():
 
         equivalent = are_equivalent(dfa1, dfa2)
 
-        visualize_automaton(states1, alphabets1, transition1, start_states1, finishing_statesDFA1, 'static/img/no4/dfa1')
-        visualize_automaton(states2, alphabets2, transition2, start_states2, finishing_statesDFA2, 'static/img/no4/dfa2')
+        visualize.visualize_automaton(states1, alphabets1, transition1, start_states1, finishing_statesDFA1, 'static/img/no4/dfa1')
+        visualize.visualize_automaton(states2, alphabets2, transition2, start_states2, finishing_statesDFA2, 'static/img/no4/dfa2')
         dfa_generated = True
     else:
         dfa_generated = False

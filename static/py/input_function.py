@@ -21,7 +21,7 @@ def get_start_and_final_states(states):
     return states_set
 
 def get_alphabet(transition):
-    alphabet = set(item for item in transition if item.isdigit())
+    alphabet = set(item for item in transition if item.isdigit() or item == 'e')
     return alphabet
 
 def set_to_string(s):
@@ -31,6 +31,21 @@ def set_to_string(s):
     s_string = str(item).lower()
     return s_string
 
+def change_format(input_list):
+    output_list = []
+    temp = []
+    for item in input_list:
+        if item == 'e':
+            temp.append('e')
+        else:
+            temp.append(item.lower())
+        if len(temp) == 3:
+            output_list.append(temp)
+            temp = []
+    return output_list
+
+def change_format_to_list(input_set):
+    return [item.lower() for item in input_set]
 
 
 
