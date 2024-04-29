@@ -46,14 +46,25 @@
 					<!-- <div id="state-container" class="flex flex-row flex-nowrap gap-10 w-full p-10 grow-1 overflow-y-auto no-scrollbar horizontal-scroll">  -->
           		</form> 
 			</section>
-			{% if result %}
-			<section id="result" class="flex flex-row justify-center w-full gap-6 min-h-screen">
-				<div class="flex flex-col basis-1/2">
-					<h1 class="text-center font-semibold text-xl h-20">Result DFA Before</h1>
-					<figure class="flex justify-center items-center">
-						<img src="../static/img/no5/{{ result }}.svg" class="rounded-md" alt="">
-					</figure>
+			{% if show == True %}
+			<section id="result" class="flex flex-col items-center w-full gap-6 min-h-screen">
+				<h1 class="text-center font-bold text-2xl">RESULT</h1>
+				{% if valid == True %}
+				<p class="bg-green-700 px-6 py-2 rounded-lg font-semibold">INPUT STRING "{{ string }}" DITERIMA DFA</p>
+				{% endif %}
+				{% if valid == False %}
+				<p class="bg-red-700 px-6 py-2 rounded-lg font-semibold">INPUT STRING "{{ string }}" TIDAK DITERIMA DFA</p>
+				{% endif %}
+				{% if result %}
+				<div class="flex flex-row justify-center w-full gap-6 min-h-screen">
+					<div class="flex flex-col basis-1/2">
+						<h1 class="text-center font-semibold text-xl h-20">Result {{ type }}</h1>
+						<figure class="flex justify-center items-center">
+							<img src="../static/img/no5/{{ result }}.svg" class="rounded-md" alt="">
+						</figure>
+					</div>
 				</div>
+				{% endif %}
 			</section>
 			{% endif %}
 		</div>

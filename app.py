@@ -4,7 +4,7 @@ from static.py.no1 import ENFA, NFA, nfa_to_dfa
 from static.py.no2 import convertToNFA
 from static.py.no3 import DFA as DFA_3
 from static.py.no4 import DFA as DFA_4, are_equivalent
-from static.py.no5 import DFA as DFA_5, NFA as NFA_5, ENFA as ENFA_5
+from static.py.no5 import DFA as DFA_5, NFA as NFA_5, ENFA as ENFA_5, test_regex
 import static.py.visualize as visualize
 import logging
 from static.py.input_function import tranform_transition, get_states, get_start_and_final_states, get_alphabet, set_to_string, change_format, change_format_to_list, convert_data, convert_transitions, change_transition_5, change_epsilon_transitions_5
@@ -22,68 +22,49 @@ def task1():
 
 @app.route('/dfa_convert', methods=['POST'])
 def convertDFA():
-
-    alphabets = change_format_to_list(get_alphabet(request.form.getlist('dfa')))
-    logging.debug(f"alphabets : {alphabets}")
+    alphabets = change_format_to_list(get_alphabet(request.form.getlist('nfa')))
     
     result = False
     if 'e' in alphabets:
-        transition = request.form.getlist('dfa')
+        transition = request.form.getlist('nfa')
         transition = change_format(transition)
-        logging.debug(f"transition : {transition}")
 
         no_transition = len(transition)
-        logging.debug(f"no_transition : {no_transition}")
 
-        states = convert_data(request.form.getlist('dfa') + request.form.getlist('start_states') + request.form.getlist('finishing_states'))
-        logging.debug(f"states : {states}")
+        states = convert_data(request.form.getlist('nfa') + request.form.getlist('start_states') + request.form.getlist('finishing_states'))
 
         no_states = len(states)
-        logging.debug(f"no_states : {no_states}")
 
         no_alphabets = len(alphabets)
-        logging.debug(f"no_alphabets : {no_alphabets}")
 
         start_states = request.form.getlist('start_states')
         start_states = set_to_string(start_states)
-        logging.debug(f"start_states : {start_states}")
 
         finishing_states = change_format_to_list(request.form.getlist('finishing_states'))
-        logging.debug(f"finishing_states: {finishing_states}")
 
         no_finishing_states = len(finishing_states)
-        logging.debug(f"no_finishing_states : {no_finishing_states}")
-        # test_string = request.form.get('test_string')
 
         enfa = ENFA(no_state=no_states, states=states, no_alphabet=no_alphabets,
             alphabets=alphabets, start=start_states, no_final=no_finishing_states,
             finals=finishing_states, no_transition=no_transition, transitions=transition)
         
-        logging.debug(f"enfa : {enfa}")
-
-        
         if finishing_states:
-            visualize.visualize_nfa_no1(enfa)
-            visualize.create_dfa_from_nfa(enfa)
+            visualize.visualize_enfa_1(enfa)
+            visualize.visualize_dfa_from_enfa_1(enfa)
             result = 'enfa'
 
     else:
-        transition = request.form.getlist('dfa')
+        transition = request.form.getlist('nfa')
         transition = convert_transitions(tranform_transition(transition))
-        logging.debug(f"transition : {transition}")
 
-        states = convert_data(request.form.getlist('dfa') + request.form.getlist('start_states') + request.form.getlist('finishing_states'))
-        logging.debug(f"states : {states}")
+        states = convert_data(request.form.getlist('nfa') + request.form.getlist('start_states') + request.form.getlist('finishing_states'))
 
         start_states = request.form.getlist('start_states')
         start_states = set_to_string(start_states)
-        logging.debug(f"start_states : {start_states}")
 
         finishing_states = change_format_to_list(request.form.getlist('finishing_states'))
-        logging.debug(f"finishing_states: {finishing_states}")
 
         nfa = NFA(states=states, alphabet=alphabets, transitions=transition, start_state=start_states, accept_states=finishing_states)
-        logging.debug(f"nfa: {nfa}")
 
         if finishing_states : 
             visualize.visualize_nfa_1(states=states, alphabet=alphabets, transitions=transition, start_state=start_states, accept_states=finishing_states)
@@ -101,14 +82,12 @@ def task2():
 def convert():
     regex = request.form.get('regex')  # Ambil nilai 'regex' dari formulir
 
-    logging.debug(f"Regular expression: {regex}")
     nfa = convertToNFA(regex)
-    logging.debug(f"NFA: {nfa}")
 
     visualize.visualize_nfa(nfa)
     
-    nfa_generated = True
-    return render_template('task2.html', nfa_image='static/img/no2/nfa.svg', nfa_generated=nfa_generated )
+    enfa_generated = True
+    return render_template('task2.html', nfa_image='static/img/no2/enfa.svg', enfa_generated=enfa_generated )
 
 @app.route('/task3')
 def task3():
@@ -129,13 +108,13 @@ def minimizedfa():
 
     finishing_states = request.form.getlist('finishing_states')
     finishing_states = get_start_and_final_states(finishing_states)
-    logging.debug(f"NFA: {finishing_states}")
 
     test_string = request.form.get('test_string')
 
     states = get_states(transition)
 
-    
+    valid = False
+
     if finishing_states:
         dfa = DFA_3(set(states), set(alphabets), transition, start_states, set(finishing_states))
         visualize.visualize_automaton(states, alphabets, transition, start_states, finishing_states, 'static/img/no3/dfa1')
@@ -145,7 +124,10 @@ def minimizedfa():
     else:
         dfa_generated = False
 
-    return render_template('task3.html', dfa_generated=dfa_generated)
+    if test_string:
+        valid = dfa.simulate(test_string)
+
+    return render_template('task3.html', dfa_generated=dfa_generated, valid=valid, string=test_string)
 
 @app.route('/task4')
 def task4():
@@ -203,7 +185,10 @@ def testString():
     logging.debug(f"type: {type}")
     
     result = False
-    if type == 'dfa':
+    valid = False
+    show = False
+    test_string = request.form.get('test_string')
+    if type == 'DFA':
         transition = request.form.getlist('dfa')
 
         alphabets = get_alphabet(transition)
@@ -227,12 +212,17 @@ def testString():
 
         visualize.visualize_automaton(dfa.states, dfa.alphabet, dfa.transition_function, dfa.start_state, dfa.final_states, 'static/img/no5/dfa')
         result = 'dfa'
+        show = True
 
-    elif type == 'nfa':
+    elif type == 'NFA':
         alphabets = change_format_to_list(get_alphabet(request.form.getlist('dfa')))
         logging.debug(f"alphabets : {alphabets}")
 
+        test_string = request.form.get('test_string')
+        result = False
+
         if 'e' in alphabets:
+            type = 'ε-NFA'
             alphabets = get_alphabet(request.form.getlist('dfa'))
             alphabets.discard('e')
             logging.debug(f"alphabets : {alphabets}")
@@ -260,13 +250,13 @@ def testString():
             enfa = ENFA_5(states=states, alphabet=alphabets, epsilon_transitions=epsilon_transition, transition=transition, start_states=start_states, final_states=finishing_states)
             logging.debug(f"enfa : {enfa}")
 
-            test_string = request.form.get('test_string')
             valid = False
             if finishing_states:
                 if test_string:
-                    valid = ENFA_5.accepts(test_string)
+                    valid = enfa.accepts(test_string)
                 visualize.visualize_enfa_5(enfa.states, enfa.alphabet, enfa.epsilon_transitions, enfa.transition_function, enfa.start_state, enfa.final_states)
                 result = 'enfa'
+                show = True
 
         else:
             alphabets = get_alphabet(request.form.getlist('dfa'))
@@ -295,9 +285,16 @@ def testString():
 
             visualize.visualize_automaton(nfa.states, nfa.alphabet, nfa.transition_function, nfa.start_state, nfa.final_states, 'static/img/no5/nfa')
             result = 'nfa'
+            show = True
 
+    elif type == 'REGEX':
+        regex = request.form.get('regex')
+        regex = regex.replace('+', '|')
 
-    return render_template('task5.html', result=result)
+        valid = test_regex(regex, test_string)
+        show = True
+
+    return render_template('task5.html', show=show , result=result, valid=valid, string=test_string, type=type)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)

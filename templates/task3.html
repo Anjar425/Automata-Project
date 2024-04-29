@@ -37,24 +37,30 @@
 
 				<button class="bg-green-700 px-4 py-2 rounded-md font-bold" onclick="showForm()">Generate Form</button>
 				<form id="form" action="\minimize" method="post" class="flex flex-col w-full justify-center items-center">
-					<!-- <p id="select_start_label" class="hidden text-gray-200 font-semibold text-md m-2">Select Start States</p>
-					<select name="" id="select_start" class="hidden bg-blue-700 text-gray-200 w-1/6 py-2 rounded-md text-md font-bold text-center remove-arrow"></select> -->
-					<!-- <div id="state-container" class="flex flex-row flex-nowrap gap-10 w-full p-10 grow-1 overflow-y-auto no-scrollbar horizontal-scroll">  -->
           		</form> 
 			</section>
 			{% if dfa_generated %}
-			<section id="result" class="flex flex-row justify-center w-full gap-6 min-h-screen">
-				<div class="flex flex-col basis-1/2">
-					<h1 class="text-center font-semibold text-xl h-20">Result DFA Before</h1>
-					<figure class="flex justify-center items-center">
-						<img src="../static/img/no3/dfa1.svg" class="rounded-md" alt="">
-					</figure>
-				</div>
-				<div class="flex flex-col basis-1/2">
-					<h1 class="text-center font-semibold text-xl h-20">Result DFA After</h1>
-					<figure class="flex justify-center items-center">
-						<img src="../static/img/no3/dfa2.svg" class="rounded-md" alt="">
-					</figure>
+			<section id="result" class="flex flex-col justify-center items-center w-full gap-6 min-h-screen">
+				<h1 class="text-center font-bold text-2xl">RESULT</h1>
+				{% if valid == True %}
+				<p class="bg-green-700 px-6 py-2 rounded-lg font-semibold">INPUT STRING "{{ string }}" DITERIMA DFA</p>
+				{% endif %}
+				{% if valid == False %}
+				<p class="bg-red-700 px-6 py-2 rounded-lg font-semibold">INPUT STRING "{{ string }}" TIDAK DITERIMA DFA</p>
+				{% endif %}
+				<div class="flex flex-row justify-center w-full gap-6 min-h-screen">
+					<div class="flex flex-col basis-1/2">
+						<h1 class="text-center font-semibold text-xl h-20">Result DFA Before</h1>
+						<figure class="flex justify-center items-center">
+							<img src="../static/img/no3/dfa1.svg" class="rounded-md" alt="">
+						</figure>
+					</div>
+					<div class="flex flex-col basis-1/2">
+						<h1 class="text-center font-semibold text-xl h-20">Result DFA After</h1>
+						<figure class="flex justify-center items-center">
+							<img src="../static/img/no3/dfa2.svg" class="rounded-md" alt="">
+						</figure>
+					</div>
 				</div>
 			</section>
 			{% endif %}

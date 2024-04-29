@@ -1,3 +1,5 @@
+import re
+
 class DFA:
     def __init__(self, states, alphabet, transition, start_state, final_states):
         self.states = states
@@ -159,3 +161,10 @@ class ENFA:
         for symbol in input_string:
             current_states = self.transition(current_states, symbol)
         return any(state in self.final_states for state in current_states)
+
+
+def test_regex(pattern, string):
+    if re.match(pattern, string):
+        return True
+    else:
+        return False

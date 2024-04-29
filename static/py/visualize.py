@@ -108,7 +108,7 @@ def visualize_dfa_from_enfa_1(nfa):
     # List to store the states of DFA
     dfa_states = list()
     dfa_states.append(epsilon_closure[nfa.start])
-
+    # nfa.alphabets = [symbol.replace('e', 'ε') for symbol in nfa.alphabets]
     # Loop will run till this stack is not empty
     while len(dfa_stack) > 0:
         # Getting top of the stack for current evaluation
@@ -253,7 +253,7 @@ def visualize_enfa_5(states, alphabet, epsilon_transitions, transition_function,
                     dot.edge(state, next_state, label=symbol)
         if state in epsilon_transitions:
             for next_state in epsilon_transitions[state]:
-                dot.edge(state, next_state, label='ε', style='dashed')
+                dot.edge(state, next_state, label='ε')
     
     # Render and save the graph
     dot.graph_attr['bgcolor'] = '#e5e7eb'

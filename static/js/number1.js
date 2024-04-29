@@ -3,9 +3,9 @@ function addTransition (state, stateAmount,transitionAmount,  x) {
     transition = transition + parseInt(x);
     const inputTransition = document.getElementById("input-transition" + state);
     inputTransition.innerHTML += `
-    <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="dfa" id="dfa" value="Q${state}" readonly/>
-    <select id="alphabets${transition}${state}" class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="dfa" id="dfa" required> </select>
-    <select id="selection_transition${transition}${state}" class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="dfa" id="dfa" required> </select>
+    <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="nfa" id="nfa" value="Q${state}" readonly/>
+    <select id="alphabets${transition}${state}" class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="nfa" id="nfa" required> </select>
+    <select id="selection_transition${transition}${state}" class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="nfa" id="nfa" required> </select>
 `;
     
     const selection_transition = document.getElementById("selection_transition" + transition + state);
