@@ -8,7 +8,18 @@
 	</head>
 	<body>
 		<div class="min-h-screen bg-gradient-to-br from-gray-900 to-black flex flex-col text-white">
-
+			<nav id="navbar" class="flex-no-wrap fixed w-full items-center py-5 px-12 flex flex-row justify-between m-0 bg-transparent top-0 z-30 font-bold">
+				<div>
+				  <p>AUTOMATA PROJECT</p>
+				</div>
+				<div class="flex flex-row gap-8">
+				  <a href="/task1">TASK 1</a>
+				  <a href="/task2">TASK 2</a>
+				  <a href="/task3">TASK 3</a>
+				  <a href="/task4">TASK 4</a>
+				  <a href="/task5">TASK 5</a>
+				</div>
+			  </nav>
 			<section id="input_form" class="flex flex-col items-center gap-6">
 				<h1 class="font-bold text-6xl mt-24">Check String to DFA / NFA / E-NFA / Regex</h1>
 				<div class="grid grid-cols-2 gap-x-6 gap-y-2">
@@ -35,18 +46,12 @@
 					<!-- <div id="state-container" class="flex flex-row flex-nowrap gap-10 w-full p-10 grow-1 overflow-y-auto no-scrollbar horizontal-scroll">  -->
           		</form> 
 			</section>
-			{% if dfa_generated  == 'dfa' %}
+			{% if result %}
 			<section id="result" class="flex flex-row justify-center w-full gap-6 min-h-screen">
 				<div class="flex flex-col basis-1/2">
 					<h1 class="text-center font-semibold text-xl h-20">Result DFA Before</h1>
 					<figure class="flex justify-center items-center">
-						<img src="../static/img/no5/dfa1.svg" class="rounded-md" alt="">
-					</figure>
-				</div>
-				<div class="flex flex-col basis-1/2">
-					<h1 class="text-center font-semibold text-xl h-20">Result DFA After</h1>
-					<figure class="flex justify-center items-center">
-						<img src="../static/img/no5/dfa2.svg" class="rounded-md" alt="">
+						<img src="../static/img/no5/{{ result }}.svg" class="rounded-md" alt="">
 					</figure>
 				</div>
 			</section>

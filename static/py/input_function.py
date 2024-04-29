@@ -72,5 +72,26 @@ def convert_transitions(transitions):
     
     return converted_transitions
 
+def change_transition_5(dictionary):
+    new_dict = {}
+    for key, value in dictionary.items():
+        state, symbol = key
+        if symbol != 'e':  # Hanya tambahkan ke kamus baru jika simbolnya bukan 'e'
+            if (state, symbol) in new_dict:
+                new_dict[(state, symbol)].append(value)
+            else:
+                new_dict[(state, symbol)] = [value]
+    return new_dict
 
+
+def change_epsilon_transitions_5(dictionary):
+    new_dict = {}
+    for key, value in dictionary.items():
+        state, symbol = key
+        if symbol == 'e':  # Jika simbolnya adalah 'e'
+            if state in new_dict:
+                new_dict[state].append(value)
+            else:
+                new_dict[state] = [value]
+    return new_dict
 

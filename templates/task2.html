@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Regular Expression to ε-NFA Converter</title>
+</head>
+<body>
+    <div class="min-h-screen bg-gradient-to-br from-gray-900 to-black flex flex-col text-white">
+        <nav id="navbar" class="flex-no-wrap fixed w-full items-center py-5 px-12 flex flex-row justify-between m-0 bg-transparent top-0 z-30 font-bold">
+            <div>
+              <p>AUTOMATA PROJECT</p>
+            </div>
+            <div class="flex flex-row gap-8">
+              <a href="/task1">TASK 1</a>
+              <a href="/task2">TASK 2</a>
+              <a href="/task3">TASK 3</a>
+              <a href="/task4">TASK 4</a>
+              <a href="/task5">TASK 5</a>
+            </div>
+          </nav>
+        <section id="input_form" class="flex flex-col items-center gap-6">
+            <h1 class="font-bold text-6xl mt-24">Regex to ε-NFA Converter</h1>
+            <form class="flex flex-col w-full justify-center items-center gap-2" action="/convert" method="post">
+                <label class="text-gray-200 font-semibold text-md" for="regex">Enter Regular Expression</label>
+                <input class="bg-gray-200 text-black py-2 rounded-md text-md font-bold text-center remove-arrow" type="text" id="regex" name="regex" required>
+                <button type="submit" class="bg-green-700 px-4 py-2 rounded-md my-5 font-bold">Convert</button>
+            </form>
+        </section>
+    
+    {% if nfa_generated %}
+    <section id="result" class="flex flex-row justify-center w-full gap-6 min-h-screen">
+        <div class="flex flex-col basis-1/2">
+            <h1 class="text-center font-semibold text-xl h-20">Result E-NFA</h1>
+            <figure class="flex justify-center items-center">
+                <img src="../static/img/no2/nfa.svg" class="rounded-md" alt="">
+            </figure>
+        </div>
+    </section>
+    {% endif %}
+    </div>
+</body>
+</html>

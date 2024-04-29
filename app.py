@@ -1,19 +1,24 @@
-from flask import Flask, render_template, request, redirect, url_for
+import os
+from flask import Flask, render_template, request
 from static.py.no1 import ENFA, NFA, nfa_to_dfa
 from static.py.no2 import convertToNFA
 from static.py.no3 import DFA as DFA_3
 from static.py.no4 import DFA as DFA_4, are_equivalent
-from static.py.no5 import DFA as DFA_5
+from static.py.no5 import DFA as DFA_5, NFA as NFA_5, ENFA as ENFA_5
 import static.py.visualize as visualize
 import logging
-from static.py.input_function import tranform_transition, get_states, get_start_and_final_states, get_alphabet, set_to_string, change_format, change_format_to_list, convert_data, convert_transitions
+from static.py.input_function import tranform_transition, get_states, get_start_and_final_states, get_alphabet, set_to_string, change_format, change_format_to_list, convert_data, convert_transitions, change_transition_5, change_epsilon_transitions_5
 
 
 app = Flask(__name__)
 
-@app.route('/number1')
-def number1():
-    return render_template('number1.html')
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/task1')
+def task1():
+    return render_template('task1.html')
 
 @app.route('/dfa_convert', methods=['POST'])
 def convertDFA():
@@ -86,13 +91,11 @@ def convertDFA():
             visualize.visualize_dfa_from_nfa_1(dfa.states, dfa.alphabet, dfa.transitions, dfa.start_state, dfa.accept_states)
             result = 'nfa'
 
-        
+    return render_template('task1.html', result=result)
 
-    return render_template('number1.html', result=result)
-
-@app.route('/')
-def index():
-    return render_template('index.html')
+@app.route('/task2')
+def task2():
+    return render_template('task2.html')
 
 @app.route('/convert', methods=['POST'])
 def convert():
@@ -105,11 +108,11 @@ def convert():
     visualize.visualize_nfa(nfa)
     
     nfa_generated = True
-    return render_template('index.html', nfa_image='static/img/no2/nfa.svg', nfa_generated=nfa_generated )
+    return render_template('task2.html', nfa_image='static/img/no2/nfa.svg', nfa_generated=nfa_generated )
 
-@app.route('/number3')
-def number3():
-    return render_template('number3.html')
+@app.route('/task3')
+def task3():
+    return render_template('task3.html')
 
 @app.route('/minimize', methods=['POST'])
 def minimizedfa():
@@ -142,11 +145,11 @@ def minimizedfa():
     else:
         dfa_generated = False
 
-    return render_template('number3.html', dfa_generated=dfa_generated)
+    return render_template('task3.html', dfa_generated=dfa_generated)
 
-@app.route('/number4')
-def number4():
-    return render_template('number4.html')
+@app.route('/task4')
+def task4():
+    return render_template('task4.html')
 
 @app.route('/compare', methods=['POST'])
 def compare():
@@ -187,11 +190,11 @@ def compare():
     else:
         dfa_generated = False
 
-    return render_template('number4.html', dfa_generated=dfa_generated)
+    return render_template('task4.html', dfa_generated=dfa_generated)
 
-@app.route('/number5')
-def number5():
-    return render_template('number5.html')
+@app.route('/task5')
+def task5():
+    return render_template('task5.html')
 
 @app.route('/test', methods=['POST'])
 def testString():
@@ -199,6 +202,7 @@ def testString():
     type = request.form.get('type')
     logging.debug(f"type: {type}")
     
+    result = False
     if type == 'dfa':
         transition = request.form.getlist('dfa')
 
@@ -222,13 +226,80 @@ def testString():
         logging.debug(f"dfa : {valid}")
 
         visualize.visualize_automaton(dfa.states, dfa.alphabet, dfa.transition_function, dfa.start_state, dfa.final_states, 'static/img/no5/dfa')
+        result = 'dfa'
 
     elif type == 'nfa':
-        transition
+        alphabets = change_format_to_list(get_alphabet(request.form.getlist('dfa')))
+        logging.debug(f"alphabets : {alphabets}")
+
+        if 'e' in alphabets:
+            alphabets = get_alphabet(request.form.getlist('dfa'))
+            alphabets.discard('e')
+            logging.debug(f"alphabets : {alphabets}")
+
+            transition = tranform_transition(request.form.getlist('dfa'))
+            logging.debug(f"transition : {transition}")
+
+            epsilon_transition = change_epsilon_transitions_5(transition)
+            logging.debug(f"epsilon_transition : {epsilon_transition}")
+
+            start_states = request.form.getlist('start_states')
+            start_states = set_to_string(start_states)
+            logging.debug(f"start_states : {start_states}")
+
+            states = get_states(transition)
+            logging.debug(f"states : {states}")
+
+            transition = change_transition_5(transition)
+            logging.debug(f"transition : {transition}")
+
+            finishing_states = request.form.getlist('finishing_states')
+            finishing_states = get_start_and_final_states(finishing_states)
+            logging.debug(f"finishing_states : {finishing_states}")
+
+            enfa = ENFA_5(states=states, alphabet=alphabets, epsilon_transitions=epsilon_transition, transition=transition, start_states=start_states, final_states=finishing_states)
+            logging.debug(f"enfa : {enfa}")
+
+            test_string = request.form.get('test_string')
+            valid = False
+            if finishing_states:
+                if test_string:
+                    valid = ENFA_5.accepts(test_string)
+                visualize.visualize_enfa_5(enfa.states, enfa.alphabet, enfa.epsilon_transitions, enfa.transition_function, enfa.start_state, enfa.final_states)
+                result = 'enfa'
+
+        else:
+            alphabets = get_alphabet(request.form.getlist('dfa'))
+            logging.debug(f"alphabets : {alphabets}")
+
+            transition = tranform_transition(request.form.getlist('dfa'))
+            logging.debug(f"transition : {transition}")
+
+            start_states = request.form.getlist('start_states')
+            start_states = set_to_string(start_states)
+            logging.debug(f"start_states : {start_states}")
+
+            states = get_states(transition)
+            logging.debug(f"states : {states}")
+
+            finishing_states = request.form.getlist('finishing_states')
+            finishing_states = get_start_and_final_states(finishing_states)
+            logging.debug(f"finishing_states : {finishing_states}")
+
+            nfa = NFA_5(states=states, alphabets=alphabets, transition=transition, start_state=start_states, final_state=finishing_states)
+            
+            test_string = request.form.get('test_string')
+            valid = False
+            if test_string:
+                valid = nfa.accepts(test_string)
+
+            visualize.visualize_automaton(nfa.states, nfa.alphabet, nfa.transition_function, nfa.start_state, nfa.final_states, 'static/img/no5/nfa')
+            result = 'nfa'
 
 
-    return render_template('number5.html')
+    return render_template('task5.html', result=result)
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.DEBUG)  # Aktifkan logging debug
-    app.run(debug=True)
+    logging.basicConfig(level=logging.DEBUG)
+    port = int(os.environ.get('PORT', 5000))  # Gunakan PORT dari variabel lingkungan, atau default ke 5000
+    app.run(debug=True, host='0.0.0.0', port=port)

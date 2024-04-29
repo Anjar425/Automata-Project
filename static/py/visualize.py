@@ -25,7 +25,7 @@ def visualize_automaton(states, alphabet, transitions, start_state, accept_state
         dot.edge(from_state, to_state, label=symbol)
     
     # render
-    dot.render(name, format='svg', view=False)
+    dot.render(name, format='svg', view=False, cleanup=True)
 
 
 def visualize_nfa (data):
@@ -47,7 +47,7 @@ def visualize_nfa (data):
 
     dot.graph_attr['bgcolor'] = '#e5e7eb'
     # Menyimpan dan menampilkan graf
-    dot.render('static/img/no2/nfa', format='svg' , cleanup=True, view=False)  # Tidak perlu format karena sudah diatur di awal
+    dot.render('static/img/no2/nfa', format='svg' , cleanup=True, view=False)
 
 
 def visualize_enfa_1(nfa):
@@ -227,3 +227,34 @@ def visualize_nfa_1(states, alphabet, transitions, start_state, accept_states):
     # Render dan tampilkan diagram
     dot.graph_attr['bgcolor'] = '#e5e7eb'
     dot.render('static/img/no1/nfa', format="svg", cleanup=True, view=False)
+
+
+def visualize_enfa_5(states, alphabet, epsilon_transitions, transition_function, start_state, final_states):
+    # Create graph
+    dot = graphviz.Digraph()
+    dot.graph_attr['rankdir'] = 'LR'
+    
+    # Add nodes
+    for state in states:
+        if state == start_state:
+            dot.node(state, shape='circle', label=start_state)
+            dot.node("start", label="start", shape="none", fontsize="24")
+            dot.edge('start', state)
+        elif state in final_states:
+            dot.node(state, shape='doublecircle')
+        else:
+            dot.node(state, shape='circle')
+    
+    # Add transitions
+    for state in states:
+        for symbol in alphabet:
+            if (state, symbol) in transition_function:
+                for next_state in transition_function[(state, symbol)]:
+                    dot.edge(state, next_state, label=symbol)
+        if state in epsilon_transitions:
+            for next_state in epsilon_transitions[state]:
+                dot.edge(state, next_state, label='ε', style='dashed')
+    
+    # Render and save the graph
+    dot.graph_attr['bgcolor'] = '#e5e7eb'
+    dot.render('static/img/no5/enfa', format="svg", cleanup=True, view=False)
