@@ -47,6 +47,15 @@ def change_format(input_list):
 def change_format_to_list(input_set):
     return [item.lower() for item in input_set]
 
+def convert_data(data):
+    result = []
+    seen = set()
+    for item in data:
+        if item.startswith('Q') and item.lower() not in seen:
+            result.append(item.lower())
+            seen.add(item.lower())
+    return result
+
 
 
 

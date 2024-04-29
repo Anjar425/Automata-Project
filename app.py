@@ -5,7 +5,7 @@ from static.py.no3 import DFA as DFA_3
 from static.py.no4 import DFA as DFA_4, are_equivalent
 import static.py.visualize as visualize
 import logging
-from static.py.input_function import tranform_transition, get_states, get_start_and_final_states, get_alphabet, set_to_string, change_format, change_format_to_list
+from static.py.input_function import tranform_transition, get_states, get_start_and_final_states, get_alphabet, set_to_string, change_format, change_format_to_list, convert_data
 
 
 app = Flask(__name__)
@@ -23,7 +23,7 @@ def convertDFA():
     no_transition = len(transition)
     logging.debug(f"no_transition : {no_transition}")
 
-    states = change_format_to_list(get_states(tranform_transition(request.form.getlist('dfa'))))
+    states = convert_data(request.form.getlist('dfa'))
     logging.debug(f"states : {states}")
 
     no_states = len(states)
