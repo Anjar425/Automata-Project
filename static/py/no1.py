@@ -1,7 +1,8 @@
 from graphviz import Digraph
+import graphviz
 
 
-class NFA:
+class ENFA:
     def __init__(self, no_state, states, no_alphabet, alphabets, start,
                  no_final, finals, no_transition, transitions):
         self.no_state = no_state
@@ -86,4 +87,125 @@ class NFA:
                 if (x == self.states_dict[y]):
                     return True
         return False
-    
+
+class NFA:
+    def __init__(self, states, alphabet, transitions, start_state, accept_states):
+        self.states = states
+        self.alphabet = alphabet
+        self.transitions = transitions
+        self.start_state = start_state
+        self.accept_states = accept_states
+
+    def epsilon_closure(self, states):
+        closure = set(states)
+        stack = list(states)
+        while stack:
+            state = stack.pop()
+            if ('', state) in self.transitions:
+                for next_state in self.transitions[('', state)]:
+                    if next_state not in closure:
+                        closure.add(next_state)
+                        stack.append(next_state)
+        return tuple(sorted(closure))
+
+    def move(self, states, symbol):
+        result = set()
+        for state in states:
+            if (symbol, state) in self.transitions:
+                result.update(self.transitions[(symbol, state)])
+        return self.epsilon_closure(result)
+
+    def simulate(self, input_string):
+        current_states = self.epsilon_closure({self.start_state})
+        for symbol in input_string:
+            current_states = self.move(current_states, symbol)
+        return bool(current_states.intersection(self.accept_states))
+    def __str__(self):
+        return f"NFA(states={self.states}, alphabet={self.alphabet}, transitions={self.transitions}, start_state={self.start_state}, accept_states={self.accept_states})"
+
+
+class DFA:
+    def __init__(self, states, alphabet, transitions, start_state, accept_states):
+        self.states = states
+        self.alphabet = alphabet
+        self.transitions = transitions
+        self.start_state = start_state
+        self.accept_states = accept_states
+
+    def simulate(self, input_string):
+        current_state = self.start_state
+        for symbol in input_string:
+            current_state = self.transitions.get((current_state, symbol))
+            if current_state is None:
+                return False
+        return current_state in self.accept_states
+
+    def __str__(self):
+        return f"States: {self.states}\nAlphabet: {self.alphabet}\nTransitions: {self.transitions}\nStart State: {self.start_state}\nAccept States: {self.accept_states}"
+
+
+def powerset(s):
+    from itertools import chain, combinations
+    return chain.from_iterable(combinations(s, r) for r in range(len(s)+1))
+
+
+def nfa_to_dfa(nfa):
+    dfa_states = set()
+    dfa_transitions = {}
+    dfa_start_state = nfa.epsilon_closure({nfa.start_state})
+    dfa_accept_states = set()
+    alphabet = nfa.alphabet
+
+    queue = [dfa_start_state]
+    visited = set()
+
+    while queue:
+        current_state = queue.pop(0)
+        if current_state in visited:
+            continue
+        visited.add(current_state)
+        dfa_states.add(current_state)
+
+        if any(state in nfa.accept_states for state in current_state):
+            dfa_accept_states.add(current_state)
+
+        for symbol in alphabet:
+            next_state = set()
+            for nfa_state in current_state:
+                if (symbol, nfa_state) in nfa.transitions:
+                    next_state.update(nfa.transitions[(symbol, nfa_state)])
+            next_state_closure = nfa.epsilon_closure(next_state)
+            dfa_transitions[(current_state, symbol)] = next_state_closure
+            if next_state_closure not in visited:
+                queue.append(next_state_closure)
+
+    return DFA(dfa_states, alphabet, dfa_transitions, dfa_start_state, dfa_accept_states)
+
+
+
+
+
+# # Membuat NFA dari input pengguna
+# states = input("Masukkan states NFA (pisahkan dengan spasi): ").split()
+# alphabet = input("Masukkan alphabet NFA (pisahkan dengan spasi): ").split()
+# transitions = {}
+# while True:
+#     transition_input = input(
+#         "Masukkan transisi NFA (dari, simbol, ke) atau ketik 'selesai' untuk mengakhiri: ").split()
+#     if transition_input[0].lower() == 'selesai':
+#         break
+#     from_state, symbol, to_state = transition_input
+#     transitions.setdefault((symbol, from_state), set()).add(to_state)
+# start_state = input("Masukkan start state NFA: ")
+# accept_states = input(
+#     "Masukkan accept states NFA (pisahkan dengan spasi): ").split()
+
+# nfa = NFA(states, alphabet, transitions, start_state, accept_states)
+# print(nfa)
+
+# # Mengonversi NFA menjadi DFA
+# dfa = nfa_to_dfa(nfa)
+
+# # Visualisasi DFA
+# visualize_dfa(dfa.states, dfa.alphabet, dfa.transitions,
+#               dfa.start_state, dfa.accept_states)

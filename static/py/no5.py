@@ -1,10 +1,10 @@
 class DFA:
-    def __init__(self):
-        self.states = set()
-        self.alphabet = set()
-        self.transition_function = {}
-        self.start_state = None
-        self.final_states = set()
+    def __init__(self, states, alphabet, transition, start_state, final_states):
+        self.states = states
+        self.alphabet = alphabet
+        self.transition_function = transition
+        self.start_state = start_state
+        self.final_states = final_states
 
     def get_input(self):
         # Input states
@@ -91,6 +91,14 @@ def main():
         print("String diterima oleh DFA.")
     else:
         print("String ditolak oleh DFA.")
+
+    print("\nDFA Definition:")
+    print("States:", dfa.states)
+    print("Alphabet:", dfa.alphabet)
+    print("Start State:", dfa.start_state)
+    print("Final States:", dfa.final_states)
+    print("Transition Function:", dfa.transition_function)
+
 
 
 if __name__ == "__main__":

@@ -56,6 +56,21 @@ def convert_data(data):
             seen.add(item.lower())
     return result
 
+def convert_transitions(transitions):
+    # Buat dictionary baru untuk menyimpan hasil konversi
+    converted_transitions = {}
+
+    # Loop melalui setiap item dalam transitions
+    for key, value in transitions.items():
+        # Periksa apakah kunci sudah ada di converted_transitions
+        if key in converted_transitions:
+            # Jika sudah ada, tambahkan nilai baru ke set yang ada di dalamnya
+            converted_transitions[key].add(value)
+        else:
+            # Jika belum ada, buat set baru dengan nilai tersebut
+            converted_transitions[key] = {value}
+    
+    return converted_transitions
 
 
 

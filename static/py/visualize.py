@@ -50,7 +50,7 @@ def visualize_nfa (data):
     dot.render('static/img/no2/nfa', format='svg' , cleanup=True, view=False)  # Tidak perlu format karena sudah diatur di awal
 
 
-def visualize_nfa_no1(nfa):
+def visualize_enfa_1(nfa):
     nfa.graph = graphviz.Digraph()
     nfa.graph.graph_attr['rankdir'] = 'LR'
 
@@ -76,9 +76,9 @@ def visualize_nfa_no1(nfa):
 
     # Makes a pdf with name nfa.graph.pdf and views the pdf
     nfa.graph.graph_attr['bgcolor'] = '#e5e7eb'
-    nfa.graph.render('static/img/no1/nfaOrEnfa', format="svg", view=False, cleanup=True)
+    nfa.graph.render('static/img/no1/enfa', format="svg", view=False, cleanup=True)
 
-def create_dfa_from_nfa(nfa):
+def visualize_dfa_from_enfa_1(nfa):
     dfa = graphviz.Digraph()
     dfa.graph_attr['rankdir'] = 'LR'
 
@@ -168,3 +168,62 @@ def create_dfa_from_nfa(nfa):
     # Makes a pdf with name dfa.pdf and views the pdf
     dfa.graph_attr['bgcolor'] = '#e5e7eb'
     dfa.render('static/img/no1/dfa', format="svg", cleanup=True, view=False)
+
+
+def visualize_dfa_from_nfa_1(states, alphabet, transitions, start_state, accept_states):
+    # Create a new graph
+    graph = graphviz.Digraph()
+    graph.graph_attr['rankdir'] = 'LR'
+
+    # Add states to the graph
+    for state in states:
+        state_label = ','.join(state) if state else 'ϕ'
+        if state in accept_states:
+            graph.node(state_label, shape='doublecircle')
+        else:
+            graph.node(state_label, shape='circle')
+
+    # Add transitions to the graph
+    for transition, next_state in transitions.items():
+        current_state, symbol = transition
+        current_state_label = ','.join(
+            current_state) if current_state else 'ϕ'
+        next_state_label = ','.join(next_state) if next_state else 'ϕ'
+        graph.edge(current_state_label, next_state_label, label=symbol)
+
+    # Set start state
+    start_state_label = ','.join(start_state) if start_state else 'ϕ'
+    graph.attr('node', shape='plaintext')
+    graph.node("start", label="start", shape="none", fontsize="24")
+    graph.edge('start', start_state_label)
+
+    # Render and display the graph
+    graph.graph_attr['bgcolor'] = '#e5e7eb'
+    graph.render('static/img/no1/dfa', format="svg", cleanup=True, view=False)
+
+def visualize_nfa_1(states, alphabet, transitions, start_state, accept_states):
+    # Inisialisasi objek graph
+    dot = graphviz.Digraph(comment='NFA')
+    dot.graph_attr['rankdir'] = 'LR'
+
+    # Tambahkan state
+    for state in states:
+        dot.node(state, shape='circle')
+    
+    # Tambahkan state awal
+    dot.node("start", label="start", shape="none", fontsize="24")
+    dot.edge("start",start_state)
+
+    # Tambahkan transisi
+    for transition, next_states in transitions.items():
+        current_state, symbol = transition
+        for next_state in next_states:
+            dot.edge(current_state, next_state, label=symbol)
+
+    # Tambahkan state akhir
+    for accept_state in accept_states:
+        dot.node(accept_state, shape='doublecircle')
+
+    # Render dan tampilkan diagram
+    dot.graph_attr['bgcolor'] = '#e5e7eb'
+    dot.render('static/img/no1/nfa', format="svg", cleanup=True, view=False)
