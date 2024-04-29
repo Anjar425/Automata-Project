@@ -20,3 +20,7 @@
 ```bash
     flask run
 ```
+5. Then Open Link that Show in Terminal. In Example 
+```bash
+    http://127.0.0.1:5000/
+```
