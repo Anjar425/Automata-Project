@@ -165,6 +165,9 @@ class ENFA:
 
 def test_regex(pattern, string):
     if re.match(pattern, string):
-        return True
+        if re.match(pattern, string).group(0) != '':
+            return True
+        else:
+            return False
     else:
         return False

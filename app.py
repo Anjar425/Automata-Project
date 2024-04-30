@@ -268,7 +268,9 @@ def testString():
 
     elif type == 'REGEX':
         regex = request.form.get('regex')
-        regex = regex.replace('+', '|')
+        # regex = regex.replace('+', '|')
+
+        valid = False
 
         valid = test_regex(regex, test_string)
         show = True
