@@ -113,10 +113,12 @@ def minimizedfa():
 
     states = get_states(transition)
 
-    valid = False
+    valid1 = False
+    valid2 = False
 
     if finishing_states:
         dfa = DFA_3(set(states), set(alphabets), transition, start_states, set(finishing_states))
+        valid1 = dfa.simulate(test_string)
         visualize.visualize_automaton(states, alphabets, transition, start_states, finishing_states, 'static/img/no3/dfa1')
         dfa.minimize()
         visualize.visualize_automaton(dfa.states, dfa.alphabet, dfa.transitions, dfa.start_state, dfa.accept_states, 'static/img/no3/dfa2')
@@ -125,9 +127,9 @@ def minimizedfa():
         dfa_generated = False
 
     if test_string:
-        valid = dfa.simulate(test_string)
+        valid2 = dfa.simulate(test_string)
 
-    return render_template('task3.html', dfa_generated=dfa_generated, valid=valid, string=test_string)
+    return render_template('task3.html', dfa_generated=dfa_generated, valid1=valid1, valid2=valid2, string=test_string)
 
 @app.route('/task4')
 def task4():
