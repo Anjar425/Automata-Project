@@ -159,7 +159,7 @@ def compare():
         valid = equivalent(dfa1, dfa2)
 
         visualize.visualize_dfa_4(dfa1.states, dfa1.initial_state, dfa1.final_states, dfa1.transitions, 'static/img/no4/dfa1')
-        visualize.visualize_dfa_4(dfa1.states, dfa1.initial_state, dfa1.final_states, dfa1.transitions, 'static/img/no4/dfa2')
+        visualize.visualize_dfa_4(dfa2.states, dfa2.initial_state, dfa2.final_states, dfa2.transitions, 'static/img/no4/dfa2')
 
         dfa_generated = True
     else:
