@@ -73,7 +73,7 @@ const showFormDFA = () => {
         <p class="text-gray-200 font-semibold text-lg text-center my-3">Input String</p>
         <input type="text" class="hidden" name="type" id="type" value="DFA"/>
         <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="test_string" id="test_string" required/>
-        <button type="submit" class="bg-green-700 px-4 py-2 rounded-md my-5 font-bold">MINIMIZE DFA</button>`;
+        <button type="submit" class="bg-green-700 px-4 py-2 rounded-md my-5 font-bold">TEST DFA</button>`;
     }
 };
 
@@ -93,7 +93,7 @@ const showFormRegex = () => {
         <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" id="regex" name="regex" required>
         <p class="text-gray-200 font-semibold text-lg text-center my-3">Input String</p>
         <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="test_string" id="test_string" required/>
-        <button type="submit" class="bg-green-700 px-4 py-2 rounded-md my-5 font-bold">MINIMIZE DFA</button>`;
+        <button type="submit" class="bg-green-700 px-4 py-2 rounded-md my-5 font-bold">TEST REGEX</button>`;
     
 };
 
@@ -188,7 +188,7 @@ const showFormNFA = () => {
         formElement.innerHTML += `
         <input type="text" class="hidden" name="type" id="type" value="NFA"/>
         <input class="bg-gray-600/25 border-[1px] border-gray-700 py-2 rounded-md font-semibold text-center" type="text" name="test_string" id="test_string" required/>
-        <button type="submit" class="bg-green-700 px-4 py-2 rounded-md my-5 font-bold">CONVERT DFA</button>`;
+        <button type="submit" class="bg-green-700 px-4 py-2 rounded-md my-5 font-bold">TEST NFA</button>`;
     }
 };
 

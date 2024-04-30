@@ -71,7 +71,7 @@ const showForm = (count) => {
 			}
 			if (formCount == 2) {
 				formElement.innerHTML += `
-        <button type="submit" class="bg-green-700 px-4 py-2 rounded-md my-5 font-bold">MINIMIZE DFA</button>`;
+        <button type="submit" class="bg-green-700 px-4 py-2 rounded-md my-5 font-bold">COMPARE DFA</button>`;
 			}
 		}
 	}

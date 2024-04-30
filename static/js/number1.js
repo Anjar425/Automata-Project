@@ -85,7 +85,7 @@ const showForm = () => {
             </article>`;
         }
         formElement.innerHTML += `
-        <button type="submit" class="bg-green-700 px-4 py-2 rounded-md my-5 font-bold">CONVERT DFA</button>`;
+        <button type="submit" class="bg-green-700 px-4 py-2 rounded-md my-5 font-bold">CONVERT TO DFA</button>`;
     }
 };
 
