@@ -47,7 +47,7 @@ def visualize_nfa (data):
 
     dot.graph_attr['bgcolor'] = '#e5e7eb'
     # Menyimpan dan menampilkan graf
-    dot.render('static/img/no2/nfa', format='svg' , cleanup=True, view=False)
+    dot.render('nfa', format='svg' , cleanup=True, view=False)
 
 
 def visualize_enfa_1(nfa):
