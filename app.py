@@ -137,35 +137,24 @@ def task4():
 def compare():
     transition1 = change_format_4(tranform_transition(request.form.getlist('dfa1')))
     transition2 = change_format_4(tranform_transition(request.form.getlist('dfa2')))
-    logging.debug(f"transition1 :  {transition1}")
-    logging.debug(f"transition2 :  {transition2}")
 
     alphabets1 = change_format_to_list(get_alphabet(request.form.getlist('dfa1')))
     alphabets2 = change_format_to_list(get_alphabet(request.form.getlist('dfa2')))
-    logging.debug(f"alphabets1 :  {alphabets1}")
-    logging.debug(f"alphabets2 :  {alphabets2}")
 
     start_states1 = set_to_string(request.form.getlist('start_states1'))
     start_states2 = set_to_string(request.form.getlist('start_states2'))
-    logging.debug(f"start_states1 :  {start_states1}")
-    logging.debug(f"start_states2 :  {start_states2}")
 
     finishing_statesDFA1 = change_format_to_list(get_start_and_final_states(request.form.getlist('finishing_statesDFA1')))
     finishing_statesDFA2 = change_format_to_list(get_start_and_final_states(request.form.getlist('finishing_statesDFA2')))
-    logging.debug(f"finishing_statesDFA1 :  {finishing_statesDFA1}")
-    logging.debug(f"finishing_statesDFA2 :  {finishing_statesDFA2}")
 
     states1 = change_format_to_list(get_states(tranform_transition(request.form.getlist('dfa1'))))
     states2 = change_format_to_list(get_states(tranform_transition(request.form.getlist('dfa2'))))
-    logging.debug(f"states1 :  {states1}")
-    logging.debug(f"states2 :  {states2}")
 
     valid = False
 
     if finishing_statesDFA1 and finishing_statesDFA2:
         dfa1 = DFA_4(states1, start_states1, finishing_statesDFA1, alphabets1, transition1)
         dfa2 = DFA_4(states2, start_states2, finishing_statesDFA2, alphabets2, transition2)
-        logging.debug(f"dfa1 :  {dfa1}")
 
         valid = equivalent(dfa1, dfa2)
 
@@ -186,7 +175,6 @@ def task5():
 def testString():
 
     type = request.form.get('type')
-    logging.debug(f"type: {type}")
     
     result = False
     valid = False
@@ -204,15 +192,13 @@ def testString():
 
         finishing_states = request.form.getlist('finishing_states')
         finishing_states = get_start_and_final_states(finishing_states)
-        logging.debug(f"NFA: {finishing_states}")
-
 
         test_string = request.form.get('test_string')
         states = get_states(transition)
 
         dfa = DFA_5(states=states, alphabet=alphabets, transition=transition, start_state=start_states, final_states=finishing_states)
         valid = dfa.accepts(test_string)
-        logging.debug(f"dfa : {valid}")
+
 
         visualize.visualize_automaton(dfa.states, dfa.alphabet, dfa.transition_function, dfa.start_state, dfa.final_states, 'static/img/no5/dfa')
         result = 'dfa'
@@ -220,7 +206,7 @@ def testString():
 
     elif type == 'NFA':
         alphabets = change_format_to_list(get_alphabet(request.form.getlist('dfa')))
-        logging.debug(f"alphabets : {alphabets}")
+
 
         test_string = request.form.get('test_string')
         result = False
@@ -229,30 +215,22 @@ def testString():
             type = 'ε-NFA'
             alphabets = get_alphabet(request.form.getlist('dfa'))
             alphabets.discard('e')
-            logging.debug(f"alphabets : {alphabets}")
 
             transition = tranform_transition(request.form.getlist('dfa'))
-            logging.debug(f"transition : {transition}")
 
             epsilon_transition = change_epsilon_transitions_5(transition)
-            logging.debug(f"epsilon_transition : {epsilon_transition}")
 
             start_states = request.form.getlist('start_states')
             start_states = set_to_string(start_states)
-            logging.debug(f"start_states : {start_states}")
 
             states = get_states(transition)
-            logging.debug(f"states : {states}")
 
             transition = change_transition_5(transition)
-            logging.debug(f"transition : {transition}")
 
             finishing_states = request.form.getlist('finishing_states')
             finishing_states = get_start_and_final_states(finishing_states)
-            logging.debug(f"finishing_states : {finishing_states}")
 
             enfa = ENFA_5(states=states, alphabet=alphabets, epsilon_transitions=epsilon_transition, transition=transition, start_states=start_states, final_states=finishing_states)
-            logging.debug(f"enfa : {enfa}")
 
             valid = False
             if finishing_states:
@@ -264,21 +242,16 @@ def testString():
 
         else:
             alphabets = get_alphabet(request.form.getlist('dfa'))
-            logging.debug(f"alphabets : {alphabets}")
 
             transition = tranform_transition(request.form.getlist('dfa'))
-            logging.debug(f"transition : {transition}")
 
             start_states = request.form.getlist('start_states')
             start_states = set_to_string(start_states)
-            logging.debug(f"start_states : {start_states}")
 
             states = get_states(transition)
-            logging.debug(f"states : {states}")
 
             finishing_states = request.form.getlist('finishing_states')
             finishing_states = get_start_and_final_states(finishing_states)
-            logging.debug(f"finishing_states : {finishing_states}")
 
             nfa = NFA_5(states=states, alphabets=alphabets, transition=transition, start_state=start_states, final_state=finishing_states)
             
