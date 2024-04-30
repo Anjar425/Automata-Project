@@ -260,7 +260,7 @@ def visualize_enfa_5(states, alphabet, epsilon_transitions, transition_function,
     dot.render('static/img/no5/enfa', format="svg", cleanup=True, view=False)
 
 
-def visualize_dfa_4(states, initial_state, final_states, transitions):
+def visualize_dfa_4(states, initial_state, final_states, transitions, name):
     dot = graphviz.Digraph(format='svg')
     dot.attr(rankdir='LR')
 
@@ -280,4 +280,4 @@ def visualize_dfa_4(states, initial_state, final_states, transitions):
 
     # Add start arrow
     dot.graph_attr['bgcolor'] = '#e5e7eb'
-    dot.render('static/img/no4/dfa', format="svg", cleanup=True, view=False)
+    dot.render(name, format="svg", cleanup=True, view=False)
