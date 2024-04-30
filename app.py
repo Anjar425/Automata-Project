@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request
 from static.py.no1 import ENFA, NFA, nfa_to_dfa
-from static.py.no2 import convertToNFA
+from no2 import convertToNFA
 from static.py.no3 import DFA as DFA_3
 from static.py.no4 import DFA as DFA_4, are_equivalent
 from static.py.no5 import DFA as DFA_5, NFA as NFA_5, ENFA as ENFA_5, test_regex
