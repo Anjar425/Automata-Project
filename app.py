@@ -1,13 +1,13 @@
 import os
 from flask import Flask, render_template, request
 from static.py.no1 import ENFA, NFA, nfa_to_dfa
-from no2 import convertToNFA
+from static.py.no2 import convertToNFA
 from static.py.no3 import DFA as DFA_3
-from static.py.no4 import DFA as DFA_4, are_equivalent
+from static.py.no4 import DFA as DFA_4, equivalent
 from static.py.no5 import DFA as DFA_5, NFA as NFA_5, ENFA as ENFA_5, test_regex
 import static.py.visualize as visualize
 import logging
-from static.py.input_function import tranform_transition, get_states, get_start_and_final_states, get_alphabet, set_to_string, change_format, change_format_to_list, convert_data, convert_transitions, change_transition_5, change_epsilon_transitions_5
+from static.py.input_function import tranform_transition, get_states, get_start_and_final_states, get_alphabet, set_to_string, change_format, change_format_to_list, convert_data, convert_transitions, change_transition_5, change_epsilon_transitions_5, change_format_4
 
 
 app = Flask(__name__)
@@ -135,13 +135,13 @@ def task4():
 
 @app.route('/compare', methods=['POST'])
 def compare():
-    transition1 = tranform_transition(request.form.getlist('dfa1'))
-    transition2 = tranform_transition(request.form.getlist('dfa2'))
+    transition1 = change_format_4(tranform_transition(request.form.getlist('dfa1')))
+    transition2 = change_format_4(tranform_transition(request.form.getlist('dfa2')))
     logging.debug(f"transition1 :  {transition1}")
     logging.debug(f"transition2 :  {transition2}")
 
-    alphabets1 = get_alphabet(request.form.getlist('dfa1'))
-    alphabets2 = get_alphabet(request.form.getlist('dfa2'))
+    alphabets1 = change_format_to_list(get_alphabet(request.form.getlist('dfa1')))
+    alphabets2 = change_format_to_list(get_alphabet(request.form.getlist('dfa2')))
     logging.debug(f"alphabets1 :  {alphabets1}")
     logging.debug(f"alphabets2 :  {alphabets2}")
 
@@ -150,29 +150,33 @@ def compare():
     logging.debug(f"start_states1 :  {start_states1}")
     logging.debug(f"start_states2 :  {start_states2}")
 
-    finishing_statesDFA1 = get_start_and_final_states(request.form.getlist('finishing_statesDFA1'))
-    finishing_statesDFA2 = get_start_and_final_states(request.form.getlist('finishing_statesDFA2'))
+    finishing_statesDFA1 = change_format_to_list(get_start_and_final_states(request.form.getlist('finishing_statesDFA1')))
+    finishing_statesDFA2 = change_format_to_list(get_start_and_final_states(request.form.getlist('finishing_statesDFA2')))
     logging.debug(f"finishing_statesDFA1 :  {finishing_statesDFA1}")
     logging.debug(f"finishing_statesDFA2 :  {finishing_statesDFA2}")
 
-    states1 = get_states(transition1)
-    states2 = get_states(transition2)
+    states1 = change_format_to_list(get_states(tranform_transition(request.form.getlist('dfa1'))))
+    states2 = change_format_to_list(get_states(tranform_transition(request.form.getlist('dfa2'))))
     logging.debug(f"states1 :  {states1}")
     logging.debug(f"states2 :  {states2}")
 
+    valid = False
+
     if finishing_statesDFA1 and finishing_statesDFA2:
-        dfa1 = DFA_4(set(states1), set(alphabets1), transition1, start_states1, set(finishing_statesDFA1))
-        dfa2 = DFA_4(set(states2), set(alphabets2), transition2, start_states2, set(finishing_statesDFA2))
+        dfa1 = DFA_4(states1, start_states1, finishing_statesDFA1, alphabets1, transition1)
+        dfa2 = DFA_4(states2, start_states2, finishing_statesDFA2, alphabets2, transition2)
+        logging.debug(f"dfa1 :  {dfa1}")
 
-        equivalent = are_equivalent(dfa1, dfa2)
+        valid = equivalent(dfa1, dfa2)
 
-        visualize.visualize_automaton(states1, alphabets1, transition1, start_states1, finishing_statesDFA1, 'static/img/no4/dfa1')
-        visualize.visualize_automaton(states2, alphabets2, transition2, start_states2, finishing_statesDFA2, 'static/img/no4/dfa2')
+        visualize.visualize_dfa_4(dfa1.states, dfa1.initial_state, dfa1.final_states, dfa1.transitions)
+        visualize.visualize_dfa_4(dfa1.states, dfa1.initial_state, dfa1.final_states, dfa1.transitions)
+
         dfa_generated = True
     else:
         dfa_generated = False
 
-    return render_template('task4.html', dfa_generated=dfa_generated)
+    return render_template('task4.html', dfa_generated=dfa_generated, valid=valid)
 
 @app.route('/task5')
 def task5():

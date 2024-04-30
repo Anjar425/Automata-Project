@@ -47,7 +47,7 @@ def visualize_nfa (data):
 
     dot.graph_attr['bgcolor'] = '#e5e7eb'
     # Menyimpan dan menampilkan graf
-    dot.render('tmp/nfa', format='svg' , cleanup=True, view=False)
+    dot.render('static/img/no2/nfa', format='svg' , cleanup=True, view=False)
 
 
 def visualize_enfa_1(nfa):
@@ -258,3 +258,26 @@ def visualize_enfa_5(states, alphabet, epsilon_transitions, transition_function,
     # Render and save the graph
     dot.graph_attr['bgcolor'] = '#e5e7eb'
     dot.render('static/img/no5/enfa', format="svg", cleanup=True, view=False)
+
+
+def visualize_dfa_4(states, initial_state, final_states, transitions):
+    dot = graphviz.Digraph(format='svg')
+    dot.attr(rankdir='LR')
+
+    # Add nodes
+    for state in states:
+        if state in final_states:
+            dot.node(state, shape='doublecircle')
+        else:
+            dot.node(state)
+    dot.node("start", label="start", shape="none", fontsize="24")
+    dot.edge('start', state)
+
+    # Add transitions
+    for state in transitions:
+        for symbol in transitions[state]:
+            dot.edge(state, transitions[state][symbol], label=symbol)
+
+    # Add start arrow
+    dot.graph_attr['bgcolor'] = '#e5e7eb'
+    dot.render('static/img/no4/dfa', format="svg", cleanup=True, view=False)

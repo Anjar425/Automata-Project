@@ -95,3 +95,11 @@ def change_epsilon_transitions_5(dictionary):
                 new_dict[state] = [value]
     return new_dict
 
+def change_format_4(transitions):
+    transformed = {}
+    for (state, symbol), next_state in transitions.items():
+        if state not in transformed:
+            transformed[state] = {}
+        transformed[state][symbol] = next_state
+    return transformed
+

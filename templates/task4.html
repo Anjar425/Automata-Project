@@ -54,23 +54,31 @@
 			</section>
 
 
-			<!-- {% if dfa_generated %} -->
-			<section id="result" class="flex flex-row justify-center w-full gap-6 min-h-screen">
-				
-				<div class="flex flex-col basis-1/2">
-					<h1 class="text-center font-semibold text-xl h-20">Result DFA Before</h1>
-					<figure class="flex justify-center items-center">
-						<img src="../static/img/no4/dfa1.svg" class="rounded-md" alt="">
-					</figure>
-				</div>
-				<div class="flex flex-col basis-1/2">
-					<h1 class="text-center font-semibold text-xl h-20">Result DFA After</h1>
-					<figure class="flex justify-center items-center">
-						<img src="../static/img/no4/dfa2.svg" class="rounded-md" alt="">
-					</figure>
+			{% if dfa_generated %}
+			<section id="result" class="flex flex-col justify-center items-center w-full gap-6 min-h-screen">
+				<h1 class="text-center font-bold text-2xl">RESULT</h1>
+				{% if valid == True %}
+				<p class="bg-green-700 px-6 py-2 rounded-lg font-semibold">DFA 1 AND DFA 2 ARE EQUIVALENT</p>
+				{% endif %}
+				{% if valid == False %}
+				<p class="bg-red-700 px-6 py-2 rounded-lg font-semibold">DFA 1 AND DFA 2 ARE NOT EQUIVALENT</p>
+				{% endif %}
+				<div class="flex flex-row justify-center w-full gap-6 min-h-screen">
+					<div class="flex flex-col basis-1/2">
+						<h1 class="text-center font-semibold text-xl h-20">Result DFA 1</h1>
+						<figure class="flex justify-center items-center">
+							<img src="../static/img/no4/dfa1.svg" class="rounded-md" alt="">
+						</figure>
+					</div>
+					<div class="flex flex-col basis-1/2">
+						<h1 class="text-center font-semibold text-xl h-20">Result DFA 2</h1>
+						<figure class="flex justify-center items-center">
+							<img src="../static/img/no4/dfa2.svg" class="rounded-md" alt="">
+						</figure>
+					</div>
 				</div>
 			</section>
-			<!-- {% endif %} -->
+			{% endif %}
 		</div>
 
 		<script src="../static/js/number4.js"></script>
