@@ -271,7 +271,7 @@ def visualize_dfa_4(states, initial_state, final_states, transitions, name):
         else:
             dot.node(state)
     dot.node("start", label="start", shape="none", fontsize="24")
-    dot.edge('start', state)
+    dot.edge('start', initial_state)
 
     # Add transitions
     for state in transitions:
